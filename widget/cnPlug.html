@@ -11,11 +11,18 @@
   const xhr = new XMLHttpRequest();
   const url = "cnPlug.json";
   const joinCont = document.querySelector('.joinContent');
+  // 对应的本期目录
+  const curTitle = 1;
   xhr.onreadystatechange = function () {
     if(this.readyState === 4 && this.status === 200) {
       const myArr = JSON.parse(this.responseText);
       myArr.map(function (t) {
         let eleNode = document.createElement('li');
+        if(t.id === '2') {
+          eleNode.setAttribute("style","margin-top:10px;text-align:center;color:red;");
+        } else {
+          eleNode.setAttribute("style","margin-top:10px;text-align:center;color:black;");
+        }
         let eleDecorte = document.createElement('hr');
         eleNode.innerHTML = t.period;
         joinCont.appendChild(eleNode);
