@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>拼接目录工具测试</title>
+</head>
+<body>
+  <div class="joinContent"></div>
+</body>
+<script>
+  const xhr = new XMLHttpRequest();
+  const url = "cnPlug.json";
+  const joinCont = document.querySelector('.joinContent');
+  xhr.onreadystatechange = function () {
+    if(this.readyState === 4 && this.status === 200) {
+      const myArr = JSON.parse(this.responseText);
+      myArr.map(function (t) {
+        let eleNode = document.createElement('li');
+        let eleDecorte = document.createElement('hr');
+        eleNode.innerHTML = t.period;
+        joinCont.appendChild(eleNode);
+        joinCont.appendChild(eleDecorte);
+      })
+    }
+  };
+  xhr.open("GET", url, true);
+  xhr.send(null);
+
+</script>
+</html>
