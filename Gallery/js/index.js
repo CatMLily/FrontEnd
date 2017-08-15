@@ -25,7 +25,7 @@ function showPic(picNum) {
   placeholder.setAttribute('src',source);
   let description = document.getElementById('description');
   if(description) {
-    let text = picNum.getAttribute('title');
+    let text = picNum.getAttribute('title') ? picNum.getAttribute('title'):"No Description";
     description.innerHTML = text;
   }
   return true;
