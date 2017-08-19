@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas图像处理--获取图片上某个像素</title>
+</head>
+<body>
+  <div class="wrapper">
+    <canvas id="paper" width="300" height="300" style="border: 1px solid yellow"></canvas>
+    <div>
+      <img src="../Gallery/images/1.jpg"
+      id="source"
+      width="300"
+      height="300"
+      style="display: none;"/>
+    </div>
+  </div>
+</body>
+<script>
+  const canvas = document.getElementById('paper');
+  const ctx = canvas.getContext('2d');
+  const image = document.getElementById('source');
+//  转成灰色
+  function convertGray(img) {
+
+    canvas.onmouseover = function () {
+      createColor(img);
+    };
+    canvas.onmouseout = function () {
+      createGray(img);
+    };
+    createGray(img);
+
+  }
+  // 这里采用取均值的灰度算法
+  function createGray(img) {
+    ctx.drawImage(img,0,0,300,300);
+    let c = ctx.getImageData(0,0,img.width,img.height);
+    console.log(c.data);
+    for(let i = 0; i < c.height; i++){
+      for(let j = 0; j < c.width; j++){
+        let x = (i*4)*(c.height) + (j*4);
+        let red = c.data[x];
+        let green = c.data[x+1];
+        let blue = c.data[x+2];
+        const aver = (red + green + blue)/3;
+        c.data[x] = c.data[x+1] = c.data[x+2] = aver;
+      }
+    }
+    ctx.putImageData(c,0,0,0,0,c.width,c.height);
+    return canvas.toDataURL();
+  }
+  function createColor(img) {
+    ctx.drawImage(img,0,0,300,300);
+  }
+  window.onload = function () {
+    convertGray(image);
+  }
+</script>
+</html>
