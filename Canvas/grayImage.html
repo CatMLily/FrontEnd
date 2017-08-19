@@ -7,8 +7,10 @@
 <body>
   <div class="wrapper">
     <canvas id="paper" width="300" height="300" style="border: 1px solid yellow"></canvas>
+    <canvas id="paper2" width="300" height="300" style="border: 1px solid black"></canvas>
+    <p id="currentRGB"></p>
     <div>
-      <img src="../Gallery/images/1.jpg"
+      <img src="../Gallery/images/3.jpg"
       id="source"
       width="300"
       height="300"
@@ -19,7 +21,10 @@
 <script>
   const canvas = document.getElementById('paper');
   const ctx = canvas.getContext('2d');
+  const canvas2 = document.getElementById('paper2');
+  const ctx2 = canvas2.getContext('2d');
   const image = document.getElementById('source');
+  const currentRGB = document.getElementById('currentRGB');
 //  转成灰色
   function convertGray(img) {
 
@@ -53,8 +58,20 @@
   function createColor(img) {
     ctx.drawImage(img,0,0,300,300);
   }
+  //  获取实时像素的rgb
+  function getImgRGB(img) {
+    ctx2.drawImage(img,0,0,300,300);
+    canvas2.onmousemove = function (e) {
+      let moveX = e.offsetX;
+      let moveY = e.offsetY;
+      const c = ctx2.getImageData(moveX,moveY,1,1);
+      console.log(c.data);
+      currentRGB.innerHTML = 'R:'+c.data[0]+','+'G:'+c.data[1]+','+'B:'+c.data[2];
+    }
+  }
   window.onload = function () {
     convertGray(image);
+    getImgRGB(image);
   }
 </script>
 </html>
