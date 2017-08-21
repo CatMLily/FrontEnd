@@ -43,8 +43,11 @@
 
   const imgObserver = new IntersectionObserver(changes => {
     changes.map(e => {
-      if (e.intersectionRatio > 0) {
+      if (e.intersectionRatio > 0 && e.intersectionRatio <= 1) {
         loadImg(e.target);
+      }
+      e.target.onload = () => {
+        imgObserver.unobserve(e.target);
       }
     });
   }
@@ -54,7 +57,8 @@
     const imgArr = Array.from(imgList);
     imgArr.map(e => {
       imgObserver.observe(e);
-    })
+    });
+
   }
   window.onload = function () {
     showImg();
