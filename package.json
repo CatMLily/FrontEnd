@@ -1,0 +1,24 @@
+{
+  "name": "fe-exercises",
+  "version": "1.0.0",
+  "description": "some exercises",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "intersection-observer": "^0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CatMLily/FrontEnd.git"
+  },
+  "author": "cjl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CatMLily/FrontEnd/issues"
+  },
+  "homepage": "https://github.com/CatMLily/FrontEnd#readme"
+}
