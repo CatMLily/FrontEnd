@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>图片懒加载</title>
+  <title>图片懒加载--IntersectionObserver</title>
   <style>
     html,body {
       margin: 0;
@@ -35,41 +35,29 @@
   </div>
 </body>
 <script>
-  window.onload = function () {
-//    console.log(testRect.top);
-    showImg();
-  };
-//  Element.getBoundingClientRect();
+  /**
+   * IntersectionObserver 看了下兼容性，ios还不支持，需要PolyFill*/
   function loadImg(target) {
     target.setAttribute('src',target.dataset.src);
   }
-  function ifVisible(target) {
-    const targetRect = target.getBoundingClientRect();
-    const clientHeight = window.innerHeight;
-//  这里+200 是因为滚动条间隔调用有延时
-    return targetRect.top < clientHeight + 200;
+
+  const imgObserver = new IntersectionObserver(changes => {
+    changes.map(e => {
+      if (e.intersectionRatio > 0) {
+        loadImg(e.target);
+      }
+    });
   }
-  // 滚动间隔 调用
-  let delay;
-  function delayLoad() {
-    clearTimeout(delay);
-    delay = setTimeout(() => showImg(),200);
-  }
+  );
   function showImg() {
     const imgList = document.querySelectorAll('.myPhoto');
     const imgArr = Array.from(imgList);
-    imgArr.map((e) => {
-      if(ifVisible(e)){
-        loadImg(e);
-      }
-    });
-    // 滚动条滚动调用
-    window.addEventListener('scroll',delayLoad,false);
+    imgArr.map(e => {
+      imgObserver.observe(e);
+    })
   }
-  /**
-   * 这种方式如果不使用delayLoad的话可能会因为scroll事件频繁发生，计算密集
-   * 造成性能上问题。
-   * 但是用了delayLoad，我觉得有时候体验会不太好，比如滚动太快，图片显示还是会有一瞬间的等待
-   * 可能是我的数据有点问题。*/
+  window.onload = function () {
+    showImg();
+  }
 </script>
 </html>
