@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>图片懒加载</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+    .wrapper {
+      position: relative;
+      width: 80%;
+      margin: 0 auto;
+      border: 1px solid olivedrab;
+    }
+    .myPhoto {
+      position: relative;
+      display: block;
+      width: 300px;
+      height: 400px;
+      margin: 20px auto;
+      border: 1px solid cadetblue;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <img data-src="Gallery/images/1.jpg" class="myPhoto" src=""/>
+    <img data-src="Gallery/images/2.jpg" class="myPhoto" src=""/>
+    <img data-src="Gallery/images/3.jpg" class="myPhoto" src=""/>
+    <img data-src="Gallery/images/4.jpg" class="myPhoto" src=""/>
+    <img data-src="Gallery/images/5.jpg" class="myPhoto" src=""/>
+  </div>
+</body>
+<script>
+  window.onload = function () {
+//    console.log(testRect.top);
+    showImg();
+  };
+//  Element.getBoundingClientRect();
+  function loadImg(target) {
+    target.setAttribute('src',target.dataset.src);
+  }
+  function ifVisible(target) {
+    const targetRect = target.getBoundingClientRect();
+    const clientHeight = window.innerHeight;
+//  这里+200 是因为滚动条间隔调用有延时
+    return targetRect.top < clientHeight + 200;
+  }
+  // 滚动间隔 调用
+  let delay;
+  function delayLoad() {
+    clearTimeout(delay);
+    delay = setTimeout(function () {
+      showImg();
+    },200);
+  }
+  function showImg() {
+    const imgList = document.querySelectorAll('.myPhoto');
+    const imgArr = Array.from(imgList);
+    imgArr.map(function (e) {
+      if(ifVisible(e)) {
+        loadImg(e);
+      }
+    });
+    // 滚动条滚动调用
+    window.addEventListener('scroll',delayLoad,false);
+  }
+  /**
+   * 这种方式如果不使用delayLoad的话可能会因为scroll事件频繁发生，计算密集
+   * 造成性能上问题。
+   * 但是用了delayLoad，我觉得有时候体验会不太好，比如滚动太快，图片显示还是会有一瞬间的等待
+   * 可能是我的数据有点问题。*/
+</script>
+</html>
