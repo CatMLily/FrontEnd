@@ -2,6 +2,16 @@ window.onload = function () {
   readJSON();
   // 绑定关联的click
   preGallery();
+  const showAll = document.querySelector('.showAll');
+  const gallaryList = document.querySelector('#imagegallary');
+  showAll.addEventListener('click',function () {
+    gallaryList.classList.toggle('showCount');
+    if(gallaryList.classList.contains('showCount')) {
+      showAll.innerHTML = '显示更多...';
+    } else {
+      showAll.innerHTML = '收起';
+    }
+  });
 };
 let imgList = document.getElementById('imagegallary');
 function readJSON() {
