@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>图片在canvas画布上的等比缩放填充</title>
+</head>
+<body>
+  <canvas id="cover"></canvas>
+</body>
+<script>
+  window.onload = function () {
+//    画布
+    const canvas = document.getElementById('cover');
+    const drawMap = canvas.getContext("2d");
+//    设备像素比
+    const phoneWidth = window.innerWidth;
+    const phoneHeight = window.innerHeight;
+    const phoneRatio = phoneWidth / phoneHeight;
+    canvas.width = phoneWidth;
+    canvas.height = phoneHeight;
+    let sx, sy, sWidth, sHeight;
+//    加载图
+    const test = new Image();
+    test.src = '../image/192.jpg';
+    test.onload = function () {
+//      图片像素比
+      const imageWidth = test.width;
+      const imageHeight = test.height;
+      const imageRatio = imageWidth / imageHeight;
+//      裁剪并缩放
+      if(imageRatio < phoneRatio) {
+        sWidth = imageWidth;
+        sHeight = sWidth / phoneRatio;
+        sx = 0;
+        sy = (imageHeight - sHeight) / 2;
+      } else if(imageRatio > phoneRatio) {
+        sWidth = imageHeight * phoneRatio;
+        sHeight = imageHeight;
+        sx = (imageWidth - sWidth) / 2;
+        sy = 0;
+      }
+      drawMap.drawImage(this,sx,sy,sWidth,sHeight,0,0,phoneWidth,phoneHeight);
+
+    }
+  }
+</script>
+</html>
